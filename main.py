@@ -69,11 +69,11 @@ def maze_view(maze, window, size_sprite, pos_hero):
 	return (can, sprite_hero, {"hero": photo_hero,"wall": photo_wall,"treasure": photo_treasure,"ennemy" : photo_ennemy,"exit": photo_exit})
 
 
-
-pos_hero = [1,1]
-size_sprite = 43
-fenetre = Tk()
-fenetre.title("Mac_Gyver")
-level = maze_load("level_1")
-(canvas, sprite_perso, photos) = maze_view(level, fenetre,size_sprite, pos_hero)
-fenetre.mainloop()
+if __name__ == '__main__':
+	pos_hero = [1,1]
+	size_sprite = 43
+	fenetre = Tk()
+	fenetre.title("Mac_Gyver")
+	level = maze_load("level_1")
+	(canvas, sprite_perso, photos) = maze_view(level, fenetre,size_sprite, pos_hero)
+	fenetre.mainloop()
