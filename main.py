@@ -9,5 +9,5 @@ if __name__ == '__main__':
     window.title("Mac_Gyver")
     maze = maze_load("level_1")
     (canvas, sprite_hero, photos) = maze_view(maze, window, size_sprite, pos_hero)
-    init_touches(window, canvas, maze, pos_hero, sprite_hero)
+    init_touches(window, canvas, maze, pos_hero, sprite_hero,)
     window.mainloop()

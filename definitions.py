@@ -46,10 +46,22 @@ def maze_view(maze, window, size_sprite, pos_hero):
             if car == "+" or car == "-" or car == "|":
                 can.create_image(n_col + n_col * size_sprite, n_line + n_line * size_sprite, anchor=NW,
                                  image=photo_wall)
-            # Treasurs
-            elif car == "1" or car == "2" or car == "3":
-                can.create_image(n_col + n_col * size_sprite, n_line + n_line * size_sprite, anchor=NW,
+            # Treasurs (we declare it has a global for delete it when macgyver found him.)
+
+            if car =="1":
+                global treasurs1
+                treasurs1 = can.create_image(n_col + n_col * size_sprite, n_line + n_line * size_sprite, anchor=NW,
                                  image=photo_treasure)
+            if car == "2":
+                global treasurs2
+                treasurs2 = can.create_image(n_col + n_col * size_sprite, n_line + n_line * size_sprite, anchor=NW,
+                                                 image=photo_treasure)
+            if car == "3":
+                global treasurs3
+                treasurs3 = can.create_image(n_col + n_col * size_sprite, n_line + n_line * size_sprite, anchor=NW,
+                                                 image=photo_treasure)
+
+
             # Ennemy
             elif car == "$":
                 can.create_image(n_col + n_col * size_sprite, n_line + n_line * size_sprite, anchor=NW,
@@ -68,7 +80,7 @@ def maze_view(maze, window, size_sprite, pos_hero):
     can.pack()
 
     return (can, sprite_hero,
-            {"hero": photo_hero, "wall": photo_wall, "treasure": photo_treasure, "ennemy": photo_ennemy,
+            {"hero": photo_hero, "wall": photo_wall, "treasure1": photo_treasure, "ennemy": photo_ennemy,
              "exit": photo_exit})
 
 
@@ -92,20 +104,40 @@ def movement(event, can, mov, maze, pos_hero, hero):
     if mov == "right" :
         pos_col += 1
     # Moving to the left :
-    if mov == "left":
+    elif mov == "left":
         pos_col -=1
     # Moving to the top  :
-    if mov == "up":
+    elif mov == "up":
         pos_ligne -=1
     # Moving to the bottom :
-    if mov == "down":
+    elif mov == "down":
         pos_ligne +=1
 
     # Test if the move leads the hero outside the playing area
     if pos_ligne < 0 or pos_col < 0 or pos_ligne > (n_lignes - 1) or pos_col > (n_cols - 1):
         return None
+
+    #Tests if a treasure is present on the next move. If so, remove the treasure and complete the hero's inventory.
+    elif maze[pos_ligne][pos_col] == "1" or maze[pos_ligne][pos_col] == "2" or maze[pos_ligne][pos_col] == "3":
+        if maze[pos_ligne][pos_col] == "1" :
+            can.delete(treasurs1)
+        elif maze[pos_ligne][pos_col] == "2" :
+            can.delete(treasurs2)
+        elif maze[pos_ligne][pos_col] == "3" :
+            can.delete(treasurs3)
+
+        maze[pos_ligne] = maze[pos_ligne][:pos_col] +" "+maze [pos_ligne][pos_col + 1:]
+
+        can.coords(hero, pos_col + pos_col * 43, pos_ligne + pos_ligne * 43)
+        del pos_hero[0]
+        del pos_hero[0]
+        pos_hero.append(pos_col)
+        pos_hero.append(pos_ligne)
+
+        return [pos_col, pos_ligne]
+
     # Otherwise if moving is possible on an empty square
-    if maze[pos_ligne][pos_col] == " ":
+    elif maze[pos_ligne][pos_col] == " ":
         can.coords(hero, pos_col + pos_col * 43, pos_ligne + pos_ligne * 43)
         del pos_hero[0]
         del pos_hero[0]
