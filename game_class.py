@@ -25,6 +25,7 @@ class Mac_Gyver:
         self.pos_hero = [1, 1]
 
 
+
         self.game_pursuit = True
         # Calculation of the size of the maze.
 
@@ -62,6 +63,8 @@ class Mac_Gyver:
         self.photo_exit = PhotoImage(file="sprites/exit.png")  # Variable that stores the image of the exit.
         self.photo_hero = PhotoImage(file="sprites/hero.png")  # Variable that stores the image of the hero.
 
+        self.random_treasure(self.data)
+
         n_line = 0  # Definition of a variable representing the line traveled. We start at the first line.
         for line in maze:  # For each line in the list containing the maze
             n_col = 0  # Definition of a variable representing the column traveled. We start at the first character of the line.
@@ -71,24 +74,21 @@ class Mac_Gyver:
                     self.can.create_image(n_col + n_col * self.size_sprite, n_line + n_line * self.size_sprite,
                                           anchor=NW,
                                           image=self.photo_wall)
-                # Treasurs (we declare it has a global for delete it when macgyver found him.)
-                if car == "1":
+                elif car == "1":
                     global treasure1
                     self.treasure1 = self.can.create_image(n_col + n_col * self.size_sprite,
                                                            n_line + n_line * self.size_sprite, anchor=NW,
                                                            image=self.photo_treasure)
-                if car == "2":
+                elif car == "2":
                     global treasure2
                     self.treasure2 = self.can.create_image(n_col + n_col * self.size_sprite,
                                                            n_line + n_line * self.size_sprite, anchor=NW,
                                                            image=self.photo_treasure)
-                if car == "3":
+                elif car == "3":
                     global treasure3
                     self.treasure3 = self.can.create_image(n_col + n_col * self.size_sprite,
                                                            n_line + n_line * self.size_sprite, anchor=NW,
                                                            image=self.photo_treasure)
-
-
                 # Ennemy
                 elif car == "$":
                     self.ennemy = self.can.create_image(n_col + n_col * self.size_sprite, n_line + n_line * self.size_sprite,
@@ -112,6 +112,27 @@ class Mac_Gyver:
                 {"hero": self.photo_hero, "wall": self.photo_wall, "treasure1": self.photo_treasure,
                  "ennemy": self.photo_ennemy,
                  "exit": self.photo_exit})
+
+    def random_treasure(self,maze):
+        treasurs_possible = 0
+        data_of_void = []
+        n_line = 0  # Definition of a variable representing the line traveled. We start at the first line.
+        for line in maze:  # For each line in the list containing the maze
+            n_col = 0  # Definition of a variable representing the column traveled. We start at the first character of the line.
+            for car in line:
+                if car == " ":
+                    treasurs_possible += 1
+                    data_of_void.append((n_line,n_col))
+                n_col += 1
+            n_line += 1
+
+        treasur1_pos,treasur2_pos,treasur3_pos = random.sample(data_of_void, 3)
+
+        maze[treasur1_pos[0]] = maze[treasur1_pos[0]][:treasur1_pos[1]] + "1" + maze[treasur1_pos[0]][treasur1_pos[1] + 1:]
+        maze[treasur2_pos[0]] = maze[treasur2_pos[0]][:treasur2_pos[1]] + "2" + maze[treasur2_pos[0]][
+                                                                                treasur2_pos[1] + 1:]
+        maze[treasur3_pos[0]] = maze[treasur3_pos[0]][:treasur3_pos[1]] + "3" + maze[treasur3_pos[0]][
+                                                                                treasur3_pos[1] + 1:]
 
     def movement(self, event, can, mov, maze, pos_hero, hero):
         """
@@ -272,16 +293,27 @@ class Mac_Gyver:
             self.pos_hero.append(self.pos_col)
             self.pos_hero.append(self.pos_ligne)
             self.can.delete(self.ennemy)
-            self.infos.set("You defeat the guardian ! Escape Now !")
+            self.infos.set("You defeat the guardian, you escape successfully!")
+            self.endgame_win()
 
         elif self.treasurs[0] != 1 or self.treasurs[1] != 2 and self.treasurs[2] != 3:
-            self.endgame()
+            self.endgame_loose()
 
-    def endgame(self):
-        result = askquestion("Delete", "Are You Sure?", icon='warning')
+    def endgame_loose(self):
+        result = askquestion("Loose", "You loose to pass the Guardian ! \n Wan't to try again ?", icon='warning')
         if result == 'yes':
             self.game_pursuit = True
             self.window.destroy()
         else:
             self.game_pursuit = False
             self.window.destroy()
+
+    def endgame_win(self):
+        result = askquestion("Success !", "You pass the Guardian ! \n Wan't to try again ?", icon='warning')
+        if result == 'yes':
+            self.game_pursuit = True
+            self.window.destroy()
+        else:
+            self.game_pursuit = False
+            self.window.destroy()
+
