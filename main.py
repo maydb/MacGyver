@@ -1,8 +1,8 @@
-from game_class import *
+from classes.maze_init import *
 
 if __name__ == '__main__':
 
     while 1:
-        game = Mac_Gyver("level_1")
-        if game.game_pursuit == False:
+        game = Maze_init("level_1")
+        if game.game_mov.combat.game_pursuit == False:
             break
