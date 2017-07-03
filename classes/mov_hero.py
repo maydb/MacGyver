@@ -1,13 +1,12 @@
 import classes.assault
 
 
-class Mov_hero :
-
+class Mov_hero:
     def __init__(self):
         self.pos_hero = [1, 1]
         self.combat = classes.assault.Assault()
 
-    def movement(self, event, can, mov, maze, pos_hero, hero,game_treasures,game):
+    def movement(self, event, can, mov, maze, pos_hero, hero, game_treasures, game):
         """
         Moving the hero !
         event:
@@ -43,13 +42,13 @@ class Mov_hero :
         elif maze[self.pos_ligne][self.pos_col] == "1" or maze[self.pos_ligne][self.pos_col] == "2" or \
                         maze[self.pos_ligne][self.pos_col] == "3":
             if maze[self.pos_ligne][self.pos_col] == "1":
-                game_treasures.find_treasure(game.treasure1,game)
+                game_treasures.find_treasure(game.treasure1, game)
                 can.delete(game.treasure1)
             elif maze[self.pos_ligne][self.pos_col] == "2":
-                game_treasures.find_treasure(game.treasure2,game)
+                game_treasures.find_treasure(game.treasure2, game)
                 can.delete(game.treasure2)
             elif maze[self.pos_ligne][self.pos_col] == "3":
-                game_treasures.find_treasure(game.treasure3,game)
+                game_treasures.find_treasure(game.treasure3, game)
                 can.delete(game.treasure3)
 
             maze[self.pos_ligne] = maze[self.pos_ligne][:self.pos_col] + " " + maze[self.pos_ligne][self.pos_col + 1:]
@@ -71,34 +70,34 @@ class Mov_hero :
             self.pos_hero.append(self.pos_ligne)
 
         elif maze[self.pos_ligne][self.pos_col] == "$":
-            self.combat.assault(game,game_treasures,self)
+            self.combat.assault(game, game_treasures, self)
 
-    def init_touches(self, window, canvas, maze, pos_hero, hero,game_treasures,game):
-            """
-            Initializing keyboard behavior
-            canvas : Canvas where to display sprites
-            maze : List containing the maze
-            pos_hero :Current position of the hero
-            Hero : Sprite representing the hero
-            No return value
-            """
-            window.bind("<Right>",
-                             lambda event, can=canvas, l=maze, pos=pos_hero, p=hero: self.movement(event, can, "right",
-                                                                                                   l,
-                                                                                                   pos, p,game_treasures,game))
-            window.bind("<Left>",
-                             lambda event, can=canvas, l=maze, pos=pos_hero, p=hero: self.movement(event, can, "left",
-                                                                                                   l,
-                                                                                                   pos, p,game_treasures,game))
-            window.bind("<Up>",
-                             lambda event, can=canvas, l=maze, pos=pos_hero, p=hero: self.movement(event, can, "up", l,
-                                                                                                   pos,
-                                                                                                   p,game_treasures,game))
-            window.bind("<Down>",
-                             lambda event, can=canvas, l=maze, pos=pos_hero, p=hero: self.movement(event, can, "down",
-                                                                                                   l,
-                                                                                                   pos, p,game_treasures,game))
-            window.bind("<Escape>", lambda event, fen=window: self.destroy(event, fen))
+    def init_touches(self, window, canvas, maze, pos_hero, hero, game_treasures, game):
+        """
+        Initializing keyboard behavior
+        canvas : Canvas where to display sprites
+        maze : List containing the maze
+        pos_hero :Current position of the hero
+        Hero : Sprite representing the hero
+        No return value
+        """
+        window.bind("<Right>",
+                    lambda event, can=canvas, l=maze, pos=pos_hero, p=hero: self.movement(event, can, "right",
+                                                                                          l,
+                                                                                          pos, p, game_treasures, game))
+        window.bind("<Left>",
+                    lambda event, can=canvas, l=maze, pos=pos_hero, p=hero: self.movement(event, can, "left",
+                                                                                          l,
+                                                                                          pos, p, game_treasures, game))
+        window.bind("<Up>",
+                    lambda event, can=canvas, l=maze, pos=pos_hero, p=hero: self.movement(event, can, "up", l,
+                                                                                          pos,
+                                                                                          p, game_treasures, game))
+        window.bind("<Down>",
+                    lambda event, can=canvas, l=maze, pos=pos_hero, p=hero: self.movement(event, can, "down",
+                                                                                          l,
+                                                                                          pos, p, game_treasures, game))
+        window.bind("<Escape>", lambda event, fen=window: self.destroy(event, fen))
 
     def destroy(self, event, window):
         """

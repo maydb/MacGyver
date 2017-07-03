@@ -1,13 +1,11 @@
-
 import random
 
 
-class Treasures_gestion ():
+class Treasures_gestion():
     def __init__(self):
         self.treasurs = [0, 0, 0]
 
-
-    def random_treasure(self,maze):
+    def random_treasure(self, maze):
         treasurs_possible = 0
         data_of_void = []
         n_line = 0  # Definition of a variable representing the line traveled. We start at the first line.
@@ -16,19 +14,20 @@ class Treasures_gestion ():
             for car in line:
                 if car == " ":
                     treasurs_possible += 1
-                    data_of_void.append((n_line,n_col))
+                    data_of_void.append((n_line, n_col))
                 n_col += 1
             n_line += 1
 
-        treasur1_pos,treasur2_pos,treasur3_pos = random.sample(data_of_void, 3)
+        treasur1_pos, treasur2_pos, treasur3_pos = random.sample(data_of_void, 3)
 
-        maze[treasur1_pos[0]] = maze[treasur1_pos[0]][:treasur1_pos[1]] + "1" + maze[treasur1_pos[0]][treasur1_pos[1] + 1:]
+        maze[treasur1_pos[0]] = maze[treasur1_pos[0]][:treasur1_pos[1]] + "1" + maze[treasur1_pos[0]][
+                                                                                treasur1_pos[1] + 1:]
         maze[treasur2_pos[0]] = maze[treasur2_pos[0]][:treasur2_pos[1]] + "2" + maze[treasur2_pos[0]][
                                                                                 treasur2_pos[1] + 1:]
         maze[treasur3_pos[0]] = maze[treasur3_pos[0]][:treasur3_pos[1]] + "3" + maze[treasur3_pos[0]][
                                                                                 treasur3_pos[1] + 1:]
 
-    def find_treasure(self, treasure_id,game):
+    def find_treasure(self, treasure_id, game):
         """
         The function
 
@@ -37,21 +36,20 @@ class Treasures_gestion ():
         """
         if treasure_id == game.treasure1:
             self.treasurs[0] = 1
-            self.what_treasurs(treasure_id,game)
+            self.what_treasurs(treasure_id, game)
             self.how_many_treasurs(game)
 
         elif treasure_id == game.treasure2:
             self.treasurs[1] = 2
-            self.what_treasurs(treasure_id,game)
+            self.what_treasurs(treasure_id, game)
             self.how_many_treasurs(game)
 
         elif treasure_id == game.treasure3:
             self.treasurs[2] = 3
-            self.what_treasurs(treasure_id,game)
+            self.what_treasurs(treasure_id, game)
             self.how_many_treasurs(game)
 
-
-    def what_treasurs(self, treasure_id,game):
+    def what_treasurs(self, treasure_id, game):
         if treasure_id == game.treasure1:
             game.infos.set("Congratulations ! You found a needle !")
         elif treasure_id == game.treasure2:
@@ -59,8 +57,7 @@ class Treasures_gestion ():
         elif treasure_id == game.treasure3:
             game.infos.set("Congratulations ! You found ether !")
 
-
-    def how_many_treasurs(self,game):
+    def how_many_treasurs(self, game):
         go_craft = ""
 
         treasure1_sent = "You still need a needle !\n"

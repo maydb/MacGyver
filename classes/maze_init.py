@@ -3,6 +3,7 @@ from tkinter import *
 import classes.mov_hero
 import classes.treasures_gestion
 
+
 class Maze_init:
     def __init__(self, level_file):
         """Loads the maze from the file name.txt
@@ -20,25 +21,25 @@ class Maze_init:
 
         self.window = Tk()
         self.window.title("Mac_Gyver")
-        #self.treasurs = [0, 0, 0]  # List of treasures harvested !
+        # self.treasurs = [0, 0, 0]  # List of treasures harvested !
 
         self.game_treasures = classes.treasures_gestion.Treasures_gestion()
 
-        #self.pos_hero = [1, 1]
+        # self.pos_hero = [1, 1]
 
-        #Creation of the Object game_mov who represent the Hero deplacement an initialization of is position.
+        # Creation of the Object game_mov who represent the Hero deplacement an initialization of is position.
         self.game_mov = classes.mov_hero.Mov_hero()
         self.pos_hero = self.game_mov.pos_hero
 
-
-        #self.game_pursuit = True
+        # self.game_pursuit = True
         # Calculation of the size of the maze.
 
 
         self.size_sprite = 43
         (self.canvas, self.sprite_hero, self.photos) = self.maze_view(self.data, self.window, self.size_sprite,
                                                                       self.pos_hero)
-        self.game_mov.init_touches(self.window, self.canvas, self.data, self.pos_hero, self.sprite_hero, self.game_treasures,self )
+        self.game_mov.init_touches(self.window, self.canvas, self.data, self.pos_hero, self.sprite_hero,
+                                   self.game_treasures, self)
 
         self.infos = StringVar()
         self.label = Label(self.window, textvariable=self.infos, bg="yellow").pack()
@@ -96,9 +97,10 @@ class Maze_init:
                                                            image=self.photo_treasure)
                 # Ennemy
                 elif car == "$":
-                    self.ennemy = self.can.create_image(n_col + n_col * self.size_sprite, n_line + n_line * self.size_sprite,
-                                          anchor=NW,
-                                          image=self.photo_ennemy)
+                    self.ennemy = self.can.create_image(n_col + n_col * self.size_sprite,
+                                                        n_line + n_line * self.size_sprite,
+                                                        anchor=NW,
+                                                        image=self.photo_ennemy)
                 # Exit
                 elif car == "O":
                     self.can.create_image(n_col + n_col * size_sprite, n_line + n_line * size_sprite, anchor=NW,
@@ -117,4 +119,3 @@ class Maze_init:
                 {"hero": self.photo_hero, "wall": self.photo_wall, "treasure1": self.photo_treasure,
                  "ennemy": self.photo_ennemy,
                  "exit": self.photo_exit})
-
