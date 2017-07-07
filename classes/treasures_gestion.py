@@ -1,16 +1,19 @@
 import random
 
-
+"""The Treasures Management class aims to deal with actions related to the discovery of treasures.
+ It is notably in this class that it finds the inventory of the treasures."""
 class Treasures_gestion():
     def __init__(self):
+        """""We initialize a list containing the treasure inventory."""
         self.treasurs = [0, 0, 0]
 
     def random_treasure(self, maze):
+        """This method allows to place the treasures randomly on the map, instead of a space."""
         treasurs_possible = 0
         data_of_void = []
         n_line = 0  # Definition of a variable representing the line traveled. We start at the first line.
         for line in maze:  # For each line in the list containing the maze
-            n_col = 0  # Definition of a variable representing the column traveled. We start at the first character of the line.
+            n_col = 0  # Definition of a variable representing the column traveled.
             for car in line:
                 if car == " ":
                     treasurs_possible += 1
@@ -29,10 +32,7 @@ class Treasures_gestion():
 
     def find_treasure(self, treasure_id, game):
         """
-        The function
-
-        :param treasure_id:
-        :return:
+        This method allows to place the treasures randomly on the map, instead of a space.
         """
         if treasure_id == game.treasure1:
             self.treasurs[0] = 1
@@ -50,6 +50,7 @@ class Treasures_gestion():
             self.how_many_treasurs(game)
 
     def what_treasurs(self, treasure_id, game):
+        """On what treasures did the hero walk?"""
         if treasure_id == game.treasure1:
             game.infos.set("Congratulations ! You found a needle !")
         elif treasure_id == game.treasure2:
@@ -58,6 +59,7 @@ class Treasures_gestion():
             game.infos.set("Congratulations ! You found ether !")
 
     def how_many_treasurs(self, game):
+        """List the remaining treasures on the map."""
         go_craft = ""
 
         treasure1_sent = "You still need a needle !\n"
